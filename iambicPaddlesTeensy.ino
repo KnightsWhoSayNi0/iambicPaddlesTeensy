@@ -10,14 +10,19 @@
  */
 
 const int paddles = 1; // might change somewhere along the line
-int paddleStates[paddles + 1];
+int paddleStates[paddles+1];
 
 void setup() {
+
+  Serial.begin(9600);
+
+  printf("iambic keyer ready");
   
   // set pin mode
   for (int i = 0; i <= paddles; i++) {
     paddleStates[i] = HIGH;
     pinMode(i, INPUT);
+    printf("registered pin: " + 1);
   }
 
 }
@@ -27,15 +32,19 @@ void loop() {
   for (int i = 0; i <= paddles; i++) {
     if (paddleStates[i] == LOW) {
       if (i == 0) {
-        Mouse.set_buttons(1, 0, 0);
+        Mouse.press(MOUSE_LEFT);
+        printf("dit pressed");
       } else {
-        Mouse.set_buttons(0, 0, 1);
+        Mouse.press(MOUSE_RIGHT);
+        printf("dah pressed");
       }
     } else {
       if (i == 0) {
-        Mouse.set_buttons(0, 0, 0);
+        Mouse.release(MOUSE_LEFT);
+        printf("dit released");
       } else {
-        Mouse.set_buttons(0, 0, 0);
+        Mouse.release(MOUSE_RIGHT);
+        printf("dah released");
       }
     }
   }
